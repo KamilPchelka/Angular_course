@@ -16,8 +16,7 @@ export class UserComponent implements OnInit {
   user: User;
 
   constructor() {
-
-
+    console.log('xd');
   }
 
   ngOnInit(): void {
