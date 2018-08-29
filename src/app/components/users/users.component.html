@@ -1,0 +1,41 @@
+<button (click)="showUserForm = !showUserForm" class="btn btn-dark mb-3">Add user</button>
+<div class="card card-body mb-3" *ngIf="showUserForm">
+
+  <h2> Add user </h2>
+  <form (submit)="onSubmit($event)">
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" [(ngModel)]="user.firstName" class="form-control" name="firstName"/>
+    </div>
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text" [(ngModel)]="user.lastName" class="form-control" name="lastName"/>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="number" [(ngModel)]="user.email" class="form-control" name="email"/>
+    </div>
+    <button [disabled]="user.firstName == '' || user.lastName == ''" class="btn btn-block mb-3">Add New User</button>
+  </form>
+
+</div>
+
+
+<ul class="list-unstyled" *ngIf='users?.length > 2; else notEnoughUsers'>
+  <li class="card card-body mb-2" *ngFor="let user of users" [class.bg-light]="user.isActive">
+
+    <h3>{{user.firstName}} {{user.lastName}}
+      <small *ngIf="user.email">
+        <button (click)="user.hide = !user.hide"
+                class="btn btn-dark btn-sm"><i [ngClass]="user.hide ? 'fa fa-plus' : 'fa fa-minus'"></i></button>
+      </small>
+    </h3>
+    <ul class="list-group" *ngIf="!user.hide && user.email">
+      <li class="list-group-item">Email: {{user.email}}</li>
+      <li class="list-group-item">Joined: {{user.registered | date: "fullDate"}}</li>
+    </ul>
+  </li>
+
+</ul>
+
+<ng-template #notEnoughUsers><h4>Not enough users</h4></ng-template>
