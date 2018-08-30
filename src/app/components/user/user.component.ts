@@ -21,21 +21,21 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.user = {
-      firstName: 'John',
-      lastName: 'Doe',
-      age: 30,
-      address: {
-        street: '50 main st',
-        city: 'Boston',
-        state: 'Ma'
-      }
-
-    };
+    /*    this.user = {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 30,
+          address: {
+            street: '50 main st',
+            city: 'Boston',
+            state: 'Ma'
+          }*/
 
   }
 
 }
+
+
 
 
 

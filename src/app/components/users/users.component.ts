@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -14,45 +15,29 @@ export class UsersComponent implements OnInit {
   users: User[];
   showExtended = true;
   showUserForm = false;
+  @ViewChild('userForm') form: any;
+  private loaded: boolean;
+  private data: any;
 
 
-  constructor() {
+  constructor(private userService: UserService) {
+    this.loaded = true;
   }
 
   ngOnInit() {
     console.log('init...');
     this.showExtended = true;
-    setTimeout(() => {
-      this.users = [
-        {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john@john.john',
-          isActive: true,
-          registered: new Date('01/02/2018 08:30:00'),
-          hide: true
+    this.userService.getData().subscribe(value => {
 
-        },
-        {
-          firstName: 'Kevin',
-          lastName: 'Johnson',
-          email: 'kevin@kevin.kevin',
-          isActive: false,
-          registered: new Date('01/02/2016 08:30:00'),
-          hide: true
+      console.log(value);
 
-        },
-        {
-          firstName: 'Karen',
-          lastName: 'Williams',
-          email: 'karen@karen.karen',
-          isActive: true,
-          hide: true
-        }
+    });
 
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.loaded = true;
+    });
 
-      ];
-    }, 2000);
   }
 
   addUser() {
@@ -66,9 +51,17 @@ export class UsersComponent implements OnInit {
     };
   }
 
-  onSubmit(e: Event) {
-    console.log(123);
+  onSubmit({value, valid}: { value: User, valid: boolean }) {
+    if (!valid) {
+      console.log('Form is not valid');
+    } else {
 
-    e.preventDefault();
+      value.isActive = true;
+      value.registered = new Date();
+      this.userService.addUser(value);
+
+      this.form.reset();
+    }
   }
+
 }
